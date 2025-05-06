@@ -29,7 +29,6 @@ const SubredditURLs = [
   'shitposting',
   'BoneHurtingJuice',
   'HistoryMemes',
-  'TikTokCringe',
   'surrealmemes',
   'militarymemes',
   'militarymeme',
@@ -123,7 +122,6 @@ export default function Home() {
     <>
       <NavBar />
       <div className="home">
-        <h1>Here are your memes</h1>
 
         {randomMeme && <h3>r/{randomMeme.subreddit}</h3>}
 

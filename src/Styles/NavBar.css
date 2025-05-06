@@ -2,14 +2,21 @@
   display: flex;
   justify-content: left;
   padding: 1rem;
-  background-color: #f0f0f0;
-  border-bottom: 1px solid #ccc;
+  background-color: rgba(255, 255, 255, 0.7); 
+  backdrop-filter: blur(10px); 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
 .navbar a {
   text-decoration: none;
   margin-right: 1rem;
   color: #333;
+  transition: color 0.3s ease; 
+}
+
+.navbar a:hover {
+  color: #007bff;
 }
 
 .navbar a.active {

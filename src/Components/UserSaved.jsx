@@ -17,7 +17,6 @@ export default function UserSaved() {
     <>
       <NavBar />
       <div className="saved-page">
-        <h1>Your Saved Memes</h1>
 
         {savedMemes.length === 0 ? (
           <p>No memes saved yet. Go grab some laughs!</p>

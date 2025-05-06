@@ -86,7 +86,7 @@ h1 {
 
 .popup-message {
   position: fixed;
-  top: 107px;
+  top: 10px;
   left: 45%;
   transform: translateX(-50%);
   background-color: #4caf50;

@@ -1,7 +1,7 @@
 .rating-bar {
   display: flex;
-  gap: 10px; /* Space between buttons */
-  justify-content: center; /* Center the buttons */
+  gap: 10px; 
+  justify-content: center; 
   align-items: center;
   margin: 20px 0;
 }

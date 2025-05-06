@@ -1,4 +1,5 @@
 import React from "react";
+import "/src/Styles/RatingBar.css";
 
 function RatingBar({ onSave, onNext, onUpVote, upVotes }) {
   return (
