@@ -1,74 +1,97 @@
-import React, { useState, useEffect } from 'react';
-import NavBar from '/src/Components/Navbar.jsx';
-import RatingBar from '/src/Components/RatingBar.jsx';
-// import API_KEYS from '/config.js';
-import '/src/Styles/Home.css';
+import React, { useState, useEffect } from "react";
+import NavBar from "./Navbar.jsx";
+import RatingBar from "./RatingBar.jsx";
+import "/src/Styles/Home.css";
+import { useSaved } from "../Context/SavedContext";
 
-const RANDOM_URL = "https://api.humorapi.com/memes/random";
+const SubredditURLs = [
+  'okbuddyretard',
+  'dankmemes',
+  'cringememes',
+  'cringe',
+  'funnybutwhy',
+  'ProgrammerHumor',
+  'programmingmemes',
+]
+
+function getRandomElement(arr) {
+  const randomArray = new Uint32Array(1);
+  window.crypto.getRandomValues(randomArray);
+  const randomIndex = randomArray[0] % arr.length;
+  return arr[randomIndex];
+}
 
 export default function Home() {
   const [randomMeme, setRandomMeme] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showSavedPopup, setShowSavedPopup] = useState(false);
+  const { saveMeme } = useSaved();
 
-  const tryKeys = async (url) => {
-    for (let i = 0; i < API_KEYS.length; i++) {
-      const key = API_KEYS[i];
-      try {
-        const res = await fetch(`${url}&api-key=${key}`);
-        if (res.status === 429 || res.status === 402) {
-          console.warn(`Key ${i + 1} blocked or out of credits (status ${res.status}). Trying next...`);
-          continue;
-        }
-        if (!res.ok) throw new Error(`Status ${res.status}`);
-        const data = await res.json();
-        return data;
-      } catch (err) {
-        console.warn(`Key ${i + 1} failed: ${err.message}`);
-        continue;
-      }
+  const fetchNewMeme = async () => {
+    setLoading(true);
+    setError(null);
+    const subreddit = getRandomElement(SubredditURLs); // Select a random subreddit dynamically
+    const reddit_API = `https://meme-api.com/gimme/${subreddit}`; // Generate the API URL dynamically
+    try {
+      const response = await fetch(reddit_API);
+      if (!response.ok) throw new Error(`Status ${response.status}`);
+      const data = await response.json();
+      setRandomMeme({
+        url: data.url,
+        title: data.title,
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-    throw new Error("All API keys failed due to rate limits, payment errors, or other issues.");
   };
 
   useEffect(() => {
-    const fetchMemes = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const randomData = await tryKeys(RANDOM_URL);
-
-        setRandomMeme(randomData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMemes();
+    fetchNewMeme();
   }, []);
+
+  const handleSaveMeme = () => {
+    console.log("Save button clicked!");
+    if (randomMeme) {
+      saveMeme(randomMeme);
+      setShowSavedPopup(true);
+      setTimeout(() => setShowSavedPopup(false), 2000);
+    }
+  };
+
+  const handleNext = () => {
+    setRandomMeme(null);
+    fetchNewMeme();
+  };
 
   return (
     <>
       <NavBar />
       <div className="home">
         <h1>Random Meme of the Day</h1>
-        {loading && <p>Loading memes...</p>}
+
+        {loading && <p>Loading memes...😳</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
 
         {randomMeme && (
-          <div className="meme-card">
-            <img
-              src={randomMeme.url}
-              alt="Random meme"
-              style={{ maxWidth: "400px", borderRadius: "8px" }}
-            />
-            <RatingBar />
-          </div>
-        )}
-        </div>
+  <div className="meme-card">
+    <img
+      src={randomMeme.url}
+      alt={randomMeme.title || "Random meme"}
+      style={{ maxWidth: "600px", borderRadius: "8px" }}
+    />
+    <RatingBar onSave={handleSaveMeme} onNext={handleNext} />
+  </div>
+)}
+
+{showSavedPopup && (
+  <div className="popup-message">
+    Meme Saved!
+  </div>
+)}
+      </div>
     </>
   );
 }
