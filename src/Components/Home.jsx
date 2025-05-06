@@ -8,17 +8,47 @@ const SubredditURLs = [
   'okbuddyretard',
   'dankmemes',
   'cringememes',
-  'cringe',
+  'AdviceAnimals',
   'funnybutwhy',
   'ProgrammerHumor',
   'programmingmemes',
-]
+  'ComedyCemetery',
+  'memes',
+  'PrequelMemes',
+  'terriblefacebookmemes',
+  'funny',
+  'teenagers',
+  'lastimages',
+  'comedyheaven',
+  'simpsonsmemes',
+  'AnimeMemes',
+  'gymmemes',
+  'minecraftmemes',
+  'relatablememes',
+  'brainrot',
+  'shitposting',
+  'wholesomememes',
+];
 
 function getRandomElement(arr) {
-  const randomArray = new Uint32Array(1);
-  window.crypto.getRandomValues(randomArray);
-  const randomIndex = randomArray[0] % arr.length;
+  const randomIndex = Math.floor(Math.random() * arr.length);
   return arr[randomIndex];
+}
+
+function MemeImage({ randomMeme, loading }) {
+  return (
+    <div className="meme-image-container">
+      {loading ? (
+        <p>Loading meme... 😅</p>
+      ) : (
+        <img
+          src={randomMeme?.url}
+          alt={randomMeme?.title || "Random meme"}
+          style={{ maxWidth: "100%", borderRadius: "8px" }}
+        />
+      )}
+    </div>
+  );
 }
 
 export default function Home() {
@@ -31,15 +61,22 @@ export default function Home() {
   const fetchNewMeme = async () => {
     setLoading(true);
     setError(null);
-    const subreddit = getRandomElement(SubredditURLs); // Select a random subreddit dynamically
-    const reddit_API = `https://meme-api.com/gimme/${subreddit}`; // Generate the API URL dynamically
+    const subreddit = getRandomElement(SubredditURLs); 
+    const reddit_API = `https://meme-api.com/gimme/${subreddit}`;
     try {
       const response = await fetch(reddit_API);
-      if (!response.ok) throw new Error(`Status ${response.status}`);
+      if (!response.ok) {
+        if (response.status === 400) {
+          throw new Error(`Bad Request: Subreddit "${subreddit}" might be invalid or restricted.`);
+        }
+        throw new Error(`Status ${response.status}`);
+      }
       const data = await response.json();
       setRandomMeme({
         url: data.url,
         title: data.title,
+        subreddit: data.subreddit,
+        upVotes: data.ups,
       });
     } catch (err) {
       setError(err.message);
@@ -61,36 +98,46 @@ export default function Home() {
     }
   };
 
-  const handleNext = () => {
-    setRandomMeme(null);
-    fetchNewMeme();
+  const handleNext = async () => {
+    await fetchNewMeme();
+  };
+
+  const handleUpVote = () => {
+    if (randomMeme) {
+      setRandomMeme((prevMeme) => ({
+        ...prevMeme,
+        upVotes: prevMeme.upVotes + 1,
+      }));
+    }
   };
 
   return (
     <>
       <NavBar />
       <div className="home">
-        <h1>Random Meme of the Day</h1>
+        <h1>Here are your memes</h1>
 
-        {loading && <p>Loading memes...😳</p>}
+        {randomMeme && <h3>r/{randomMeme.subreddit}</h3>}
+
         {error && <p style={{ color: "red" }}>{error}</p>}
 
-        {randomMeme && (
-  <div className="meme-card">
-    <img
-      src={randomMeme.url}
-      alt={randomMeme.title || "Random meme"}
-      style={{ maxWidth: "600px", borderRadius: "8px" }}
-    />
-    <RatingBar onSave={handleSaveMeme} onNext={handleNext} />
-  </div>
-)}
+        <div className="meme-card">
+          <MemeImage randomMeme={randomMeme} loading={loading} />
+          {randomMeme && (
+            <RatingBar
+              onSave={handleSaveMeme}
+              onNext={handleNext}
+              onUpVote={handleUpVote}
+              upVotes={randomMeme.upVotes}
+            />
+          )}
+        </div>
 
-{showSavedPopup && (
-  <div className="popup-message">
-    Meme Saved!
-  </div>
-)}
+        {showSavedPopup && (
+          <div className="popup-message">
+            Meme Saved!
+          </div>
+        )}
       </div>
     </>
   );

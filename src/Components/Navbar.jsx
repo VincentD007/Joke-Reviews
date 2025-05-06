@@ -17,7 +17,7 @@ function NavBar() {
       >
         Saved Memes
       </NavLink>
-      <span className="username">Betty White</span>
+      <span className="username">&#128100; Betty White</span>
     </nav>
   );
 }
