@@ -27,7 +27,15 @@ const SubredditURLs = [
   'relatablememes',
   'brainrot',
   'shitposting',
-  'wholesomememes',
+  'BoneHurtingJuice',
+  'HistoryMemes',
+  'TikTokCringe',
+  'surrealmemes',
+  'militarymemes',
+  'militarymeme',
+  'NonCredibleDefense',
+  'JustBootThings',
+  'Military'
 ];
 
 function getRandomElement(arr) {

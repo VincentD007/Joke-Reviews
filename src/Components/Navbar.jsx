@@ -7,15 +7,11 @@ function NavBar() {
     <nav className="navbar">
       <NavLink
         to="/home"
-        className={({ isActive }) => (isActive ? "active" : "")}
-      >
-        Home
+        className={({ isActive }) => (isActive ? "active" : "")}>Home
       </NavLink>
       <NavLink
         to="/saved"
-        className={({ isActive }) => (isActive ? "active" : "")}
-      >
-        Saved Memes
+        className={({ isActive }) => (isActive ? "active" : "")}>Saved Memes
       </NavLink>
       <span className="username">&#128100; Betty White</span>
     </nav>

@@ -1,0 +1,35 @@
+.rating-bar {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+  justify-content: center; /* Center the buttons */
+  align-items: center;
+  margin: 20px 0;
+}
+
+.rating-bar button {
+  background: linear-gradient(135deg, #4a90e2, #007aff);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Space between text and emoji/icon */
+}
+
+.rating-bar button:hover {
+  background: linear-gradient(135deg, #007aff, #005bb5);
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.rating-bar button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

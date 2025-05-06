@@ -1,6 +1,6 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
   padding: 1rem;
   background-color: #f0f0f0;
   border-bottom: 1px solid #ccc;
@@ -20,4 +20,5 @@
 .username {
   font-weight: bold;
   color: #555;
+  margin-left: auto;
 }
