@@ -14,15 +14,20 @@ export default function Login() {
                 <input className='LoginField' type="text" placeholder='Username' required onChange={eventObj => {
                     userName.current = eventObj.target.value;
                 }}/>
-                <input className='LoginField' type="text" placeholder='Password' required onChange={eventObj => {
-                    eventObj.target.value = encryptInput(eventObj, password);
-                    console.log(password.current)
+                <input className='LoginField' type="password" placeholder='Password' required onChange={eventObj => {
+                    password.current = eventObj.target.value;
                 }}/>
-                <input className='LoginField' type="text" placeholder='Access Token' required onChange={eventObj => {
-                    eventObj.target.value = encryptInput(eventObj, PAT);
+                <input className='LoginField' type="password" placeholder='Access Token' required onChange={eventObj => {
+                    PAT.current = eventObj.target.value;
                 }}/>
                 <input id='LoginButton' type='submit' value="Log In" onClick={()=> {
-                    
+                    let userDetails;
+                    login(userName.current, password.current)
+                    .then(data => {
+                        userDetails = data
+                        console.log(userDetails, "test");
+                    })
+      
                 }}/>
             </form>
         </div>
@@ -31,43 +36,12 @@ export default function Login() {
 }
 
 
-function encryptInput(eventObj, reference) {
-    let value = eventObj.target.value;
-
-    if (value.length > reference.current.length) {
-        let encoded = "";
-        let newChar = value.slice(-1);
-        for (let i=0; i<value.length; i++) {
-            encoded += "*";
-        }
-        reference.current += newChar;
-        return encoded;
-    }
-    else {
-        let refVal = reference.current;
-        reference.current = refVal.slice(0, -1);
-        return value;
-    }
-}
-
-
 async function login(username, password) {
     let repo = 'https://api.github.com/repos/VincentD007/Joke-Reviews-DB/contents'
     let data = await fetch(`${repo}/Accounts/${username}.json?ref=main`)
-    .then(rawData => {
-        if (rawData.result = 404) {
-            throw new Error("File Not Found")
-        }
-        rawData.json()
-    })
-    .catch(() => false);
-
-    if (!data || !(data.password == password)) {
-        return false;
-    }
-
-    return data;
-
+    .then(rawData => rawData.json())
+    .then(jsonified => jsonified)
+    return data
 }
 
 
