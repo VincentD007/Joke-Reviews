@@ -37,8 +37,8 @@ const SubredditURLs = [
   'Military',
   'Catstandingup',
   'Oldpeoplefacebook',
-  'ScenesFromAHat',
-  'BreadStapledtoTrees'
+  'BreadStapledtoTrees',
+  'AirForce'
 ];
 
 function getRandomElement(arr) {
