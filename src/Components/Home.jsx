@@ -38,8 +38,7 @@ const SubredditURLs = [
   'Catstandingup',
   'Oldpeoplefacebook',
   'ScenesFromAHat',
-  'Blunderyears',
-  'BreadStapledtoTrees',
+  'BreadStapledtoTrees'
 ];
 
 function getRandomElement(arr) {
