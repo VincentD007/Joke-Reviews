@@ -34,7 +34,12 @@ const SubredditURLs = [
   'militarymeme',
   'NonCredibleDefense',
   'JustBootThings',
-  'Military'
+  'Military',
+  'Catstandingup',
+  'Oldpeoplefacebook',
+  'ScenesFromAHat',
+  'Blunderyears',
+  'BreadStapledtoTrees',
 ];
 
 function getRandomElement(arr) {
