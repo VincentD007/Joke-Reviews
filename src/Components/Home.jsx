@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '/src/Components/Navbar.jsx';
 import RatingBar from '/src/Components/RatingBar.jsx';
-import API_KEYS from '/config.js';
+// import API_KEYS from '/config.js';
 import '/src/Styles/Home.css';
 
 const RANDOM_URL = "https://api.humorapi.com/memes/random";
