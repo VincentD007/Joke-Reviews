@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import NavBar from "./Navbar.jsx";
 import RatingBar from "./RatingBar.jsx";
 import "/src/Styles/Home.css";
@@ -68,6 +69,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const [showSavedPopup, setShowSavedPopup] = useState(false);
   const { saveMeme } = useSaved();
+  const navigate = useNavigate()
 
   const fetchNewMeme = async () => {
     setLoading(true);
@@ -98,10 +100,10 @@ export default function Home() {
 
   useEffect(() => {
     fetchNewMeme();
+    return (() => {navigate("/")});
   }, []);
 
   const handleSaveMeme = () => {
-    console.log("Save button clicked!");
     if (randomMeme) {
       saveMeme(randomMeme);
       setShowSavedPopup(true);

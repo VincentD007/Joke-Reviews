@@ -1,7 +1,8 @@
 import { useRef, useContext } from 'react';
 import {useNavigate} from 'react-router-dom'
 import "../Styles/Login.css"
-import LoggedInContext from '../Context/LoggedInContext.jsx' 
+import LoggedInContext from '../Context/LoggedInContext.jsx'
+import updateMemes from './DBinterface.js';
 
 export default function Login() {
     const navigate = useNavigate()
@@ -42,6 +43,7 @@ export default function Login() {
                 }}/>
 
                 <input type='submit' id='CreateButton' value="Create Account" onClick={() => {
+                    if (userName.current.indexOf(" ") != -1) {return}
                     accountExists(userName.current)
                     .then(UserExists => {
                         validatePAT(PAT.current)
