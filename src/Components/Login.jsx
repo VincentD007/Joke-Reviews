@@ -31,7 +31,6 @@ export default function Login() {
                     //     userDetails = data;
                     //     console.log(userDetails, "test");
                     // })
-                    //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
                     validatePAT(PAT.current)
                     .then(okay => {console.log(okay)})
       
