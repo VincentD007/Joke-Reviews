@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./Navbar.jsx";
 import RatingBar from "./RatingBar.jsx";
 import "/src/Styles/Home.css";
-import { useSaved } from "../Context/SavedContext";
+import { useSaved } from "../Context/SavedContext.jsx";
 
 const SubredditURLs = [
   'okbuddyretard',
