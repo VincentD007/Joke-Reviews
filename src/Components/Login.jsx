@@ -46,34 +46,6 @@ export default function Login() {
 
 
 async function createAccount(username, password, token) {
-    // let url = `https://api.github.com/repos/VincentD007/Joke-Reviews-DB/contents/Accounts/${username}.json`
-
-    // let body = {
-    //     username: username,
-    //     password: password,
-    //     SavedMemes: {}
-    // };
-
-    // let bodyEncoded = btoa(JSON.stringify(body))
-
-    // let success = await fetch(url, 
-    //     {
-    //     method: 'PUT',
-    //     headers: {
-    //         'authentication': `Bearer ${token}`,
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //         messege: `Account created for ${username}`,
-    //         content: bodyEncoded,
-    //         branch: 'main'
-    //     })
-    //  }
-    // )
-    // .then(response => response.ok)
-
-    // return success;
-
     let newAccount = {
         token: token,
         username: username,
