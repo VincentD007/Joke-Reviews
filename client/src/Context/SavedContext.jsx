@@ -13,7 +13,6 @@ export const SavedProvider = ({ children }) => {
     localStorage.setItem("savedMemes", JSON.stringify(savedMemes));
   }, [savedMemes]);
 
-  // ✅ Modified to include a 'note' field
   const saveMeme = (meme) => {
     if (!savedMemes.find((m) => m.url === meme.url)) {
       const memeWithTimeStamp = { ...meme, savedAt: Date.now(), note: "" };
@@ -21,7 +20,6 @@ export const SavedProvider = ({ children }) => {
     }
   };
 
-  // ✅ New function to update a note
   const updateMemeNote = (url, newNote) => {
     const updated = savedMemes.map((meme) =>
       meme.url === url ? { ...meme, note: newNote } : meme
@@ -33,7 +31,6 @@ export const SavedProvider = ({ children }) => {
     setSavedMemes(savedMemes.filter((m) => m.url !== url));
   };
 
-  // ✅ Include updateMemeNote in context value
   return (
     <SavedContext.Provider
       value={{ savedMemes, saveMeme, removeMeme, updateMemeNote }}

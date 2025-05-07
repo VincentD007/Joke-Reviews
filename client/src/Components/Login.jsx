@@ -1,11 +1,13 @@
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
 import {useNavigate} from 'react-router-dom'
 import "../Styles/Login.css"
+import LoggedInContext from '../Context/LoggedInContext.jsx' 
 
-export default function Login({setUser}) {
+export default function Login() {
     const navigate = useNavigate()
     let userName = useRef("");
     let PAT = useRef("");
+    let setUser = useContext(LoggedInContext).setUser;
     
     return (
         <div id="LoginPageContainer">
@@ -30,7 +32,7 @@ export default function Login({setUser}) {
                         .then(PATValid => {
                             if (UserExists && PATValid) {
                                 setUser({
-                                    Username: userName.current,
+                                    username: userName.current,
                                     token: PAT.current
                                 })
                                 navigate('/home');
