@@ -13,9 +13,9 @@ function App() {
     <SavedProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Login UserControl={{user, setUser}}/>} />
-          <Route path="/home" element={<Home UserControl={{user, setUser}}/>} />
-          <Route path="/saved" element={<UserSaved />} /> {/* Add Saved page */}
+          <Route path="/" element={<Login setUser={setUser}/>} />
+          <Route path="/home" element={<Home user={user}/>} />
+          <Route path="/saved" element={<UserSaved user={user}/>} /> {/* Add Saved page */}
         </Routes>
       </Router>
     </SavedProvider>

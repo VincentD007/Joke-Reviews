@@ -1,10 +1,9 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import {useNavigate} from 'react-router-dom'
 import "../Styles/Login.css"
 
-export default function Login({UserControl}) {
+export default function Login({setUser}) {
     const navigate = useNavigate()
-    const {user, setUser} = UserControl;
     let userName = useRef("");
     let PAT = useRef("");
     
@@ -25,8 +24,6 @@ export default function Login({UserControl}) {
                 }}/>
 
                 <input id='LoginButton' type='submit' value="Log In" onClick={()=> {
-                    // validatePAT(PAT.current)
-                    // .then(okay => {console.log(okay)})
                     accountExists(userName.current)
                     .then(UserExists => {
                         validatePAT(PAT.current)
@@ -43,8 +40,16 @@ export default function Login({UserControl}) {
                 }}/>
 
                 <input type='submit' id='CreateButton' value="Create Account" onClick={() => {
-                    createAccount(userName.current, PAT.current)
-                    .then(response => {console.log(response)})
+                    accountExists(userName.current)
+                    .then(UserExists => {
+                        validatePAT(PAT.current)
+                        .then(PATValid => {
+                            if (!UserExists && PATValid) {
+                                createAccount(userName.current, PAT.current)
+                                .then(response => {console.log(response)})
+                            };
+                        })
+                    })
                 }}/>
             </form>
         </div>
@@ -57,7 +62,6 @@ async function createAccount(username, token) {
         username: username,
         token: token,
     }
-
     let response = await fetch("http://localhost:3001/JokeAccounts",
         {
             method: "PUT",
@@ -104,4 +108,3 @@ async function accountExists(username) {
 //         title2: imgURl
 //     },
 // }
-
