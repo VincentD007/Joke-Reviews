@@ -1,10 +1,11 @@
-import React, { useState, useEffect , useRef} from 'react';
+import React, { useRef } from 'react';
+import {useNavigate} from 'react-router-dom'
 import "../Styles/Login.css"
 
-export default function Login() {
-    const [user, setUser] = useState({});
+export default function Login({UserControl}) {
+    const navigate = useNavigate()
+    const {user, setUser} = UserControl;
     let userName = useRef("");
-    let password = useRef("");
     let PAT = useRef("");
     
     return (
@@ -18,25 +19,31 @@ export default function Login() {
                 required onChange={eventObj => {
                     userName.current = eventObj.target.value;
                 }}/>
-                <input className='LoginField' type="password" placeholder='Password' required onChange={eventObj => {
-                    password.current = eventObj.target.value;
-                }}/>
+
                 <input className='LoginField' type="password" placeholder='Access Token' required onChange={eventObj => {
                     PAT.current = eventObj.target.value;
                 }}/>
+
                 <input id='LoginButton' type='submit' value="Log In" onClick={()=> {
-                    // let userDetails;
-                    // login(userName.current, password.current)
-                    // .then(data => {
-                    //     userDetails = data;
-                    //     console.log(userDetails, "test");
-                    // })
-                    validatePAT(PAT.current)
-                    .then(okay => {console.log(okay)})
-      
+                    // validatePAT(PAT.current)
+                    // .then(okay => {console.log(okay)})
+                    accountExists(userName.current)
+                    .then(UserExists => {
+                        validatePAT(PAT.current)
+                        .then(PATValid => {
+                            if (UserExists && PATValid) {
+                                setUser({
+                                    Username: userName.current,
+                                    token: PAT.current
+                                })
+                                navigate('/home');
+                            };
+                        })
+                    })
                 }}/>
+
                 <input type='submit' id='CreateButton' value="Create Account" onClick={() => {
-                    createAccount(userName.current, password.current, PAT.current)
+                    createAccount(userName.current, PAT.current)
                     .then(response => {console.log(response)})
                 }}/>
             </form>
@@ -45,12 +52,10 @@ export default function Login() {
 }
 
 
-async function createAccount(username, password, token) {
+async function createAccount(username, token) {
     let newAccount = {
-        token: token,
         username: username,
-        password: password,
-        SavedMemes: {}
+        token: token,
     }
 
     let response = await fetch("http://localhost:3001/JokeAccounts",
@@ -69,15 +74,6 @@ async function createAccount(username, password, token) {
 }
 
 
-async function login(username, password) {
-    let repo = 'https://api.github.com/repos/VincentD007/Joke-Reviews-DB/contents'
-    let data = await fetch(`${repo}/Accounts/${username}.json?ref=main`)
-    .then(rawData => rawData.json())
-    .then(jsonified => jsonified)
-    return data;
-}
-
-
 async function validatePAT(PAT) {
     return await fetch('https://api.github.com/repos/VincentD007/Joke-Reviews-DB',
         {
@@ -90,10 +86,19 @@ async function validatePAT(PAT) {
 }
 
 
+async function accountExists(username) {
+    if (typeof username != 'string') {
+        throw new Error(`${username} is not a string.`)
+    };
+
+    let url = "https://api.github.com/repos/VincentD007/Joke-Reviews-DB/contents/Accounts";
+    return await fetch(`${url}/${username}.json`)
+    .then(response => response.ok);
+}
+
 
 // let user = {
 //     username: "VincentD007",
-//     password: 12345,
 //     SavedMemes: {
 //         title1: imgURl, 
 //         title2: imgURl

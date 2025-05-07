@@ -14,7 +14,6 @@ app.put('/JokeAccounts', (req, res) => {
   let url = "https://api.github.com/repos/VincentD007/Joke-Reviews-DB/contents/Accounts"
   let body = {
     username: req.body.username,
-    password: req.body.password,
     SavedMemes: {}
 };
 
