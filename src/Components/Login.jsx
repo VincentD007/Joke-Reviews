@@ -11,7 +11,11 @@ export default function Login() {
         <div id="LoginPageContainer">
             <h1 style={{margin: "0px", marginBottom: "30px"}}>Jokes Login</h1>
             <form id='LoginForm' onSubmit={(event) => {event.preventDefault()}}>
-                <input className='LoginField' type="text" placeholder='Username' required onChange={eventObj => {
+                <input 
+                className='LoginField' 
+                pattern="[a-zA-Z0-9]*" 
+                type="text" placeholder='Username' 
+                required onChange={eventObj => {
                     userName.current = eventObj.target.value;
                 }}/>
                 <input className='LoginField' type="password" placeholder='Password' required onChange={eventObj => {
@@ -21,18 +25,76 @@ export default function Login() {
                     PAT.current = eventObj.target.value;
                 }}/>
                 <input id='LoginButton' type='submit' value="Log In" onClick={()=> {
-                    let userDetails;
-                    login(userName.current, password.current)
-                    .then(data => {
-                        userDetails = data
-                        console.log(userDetails, "test");
-                    })
+                    // let userDetails;
+                    // login(userName.current, password.current)
+                    // .then(data => {
+                    //     userDetails = data;
+                    //     console.log(userDetails, "test");
+                    // })
+                    //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
+                    validatePAT(PAT.current)
+                    .then(okay => {console.log(okay)})
       
+                }}/>
+                <input type='submit' id='CreateButton' value="Create Account" onClick={() => {
+                    createAccount(userName.current, password.current, PAT.current)
+                    .then(response => {console.log(response)})
                 }}/>
             </form>
         </div>
-
     )
+}
+
+
+async function createAccount(username, password, token) {
+    // let url = `https://api.github.com/repos/VincentD007/Joke-Reviews-DB/contents/Accounts/${username}.json`
+
+    // let body = {
+    //     username: username,
+    //     password: password,
+    //     SavedMemes: {}
+    // };
+
+    // let bodyEncoded = btoa(JSON.stringify(body))
+
+    // let success = await fetch(url, 
+    //     {
+    //     method: 'PUT',
+    //     headers: {
+    //         'authentication': `Bearer ${token}`,
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //         messege: `Account created for ${username}`,
+    //         content: bodyEncoded,
+    //         branch: 'main'
+    //     })
+    //  }
+    // )
+    // .then(response => response.ok)
+
+    // return success;
+
+    let newAccount = {
+        token: token,
+        username: username,
+        password: password,
+        SavedMemes: {}
+    }
+
+    let response = await fetch("http://localhost:3001/JokeAccounts",
+        {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(newAccount)
+        }
+    )
+    .then(rawData => rawData.json())
+
+    return response;
 }
 
 
@@ -41,16 +103,15 @@ async function login(username, password) {
     let data = await fetch(`${repo}/Accounts/${username}.json?ref=main`)
     .then(rawData => rawData.json())
     .then(jsonified => jsonified)
-    return data
+    return data;
 }
 
 
 async function validatePAT(PAT) {
-    return await fetch('https://api.github.com/VincentD007',
+    return await fetch('https://api.github.com/repos/VincentD007/Joke-Reviews-DB',
         {
             headers: {
-                'Authorization': `Bearer ${PAT}`,
-                'Accept': 'application/vnd.github.v3+json'
+                'Authorization': `Bearer ${PAT}`
             }
         }
     )
@@ -62,6 +123,9 @@ async function validatePAT(PAT) {
 // let user = {
 //     username: "VincentD007",
 //     password: 12345,
-//     savedjokes: [3, 7, 3, 10, 56],
-//     token: "2342d23wf3244"
+//     SavedMemes: {
+//         title1: imgURl, 
+//         title2: imgURl
+//     },
 // }
+
