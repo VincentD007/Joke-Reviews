@@ -16,6 +16,10 @@ function NavBar() {
         to="/saved"
         className={({ isActive }) => (isActive ? "active" : "")}>Saved Memes
       </NavLink>
+      <NavLink 
+        to={!username ? "/" : "/GlobalChat"}
+        className={({ isActive }) => {isActive ? "active" : ""}}>Global Chat
+      </NavLink>
       <span className="username">&#128100; {username}</span>
     </nav>
   );

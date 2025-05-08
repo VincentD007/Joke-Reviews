@@ -43,6 +43,13 @@ app.put('/JokeAccounts', (req, res) => {
 })
 
 
+app.put('/GlobalChatHistory', (req, res) => {
+  let url = "https://api.github.com/repos/VincentD007/Joke-Reviews-DB/contents/GlobalChat"
+
+  let 
+})
+
+
 app.listen(port, () => {
   console.log('Bottega Server listening on port ' + port);
 })

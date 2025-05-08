@@ -57,4 +57,66 @@ async function GetUserData(username, type='memes') {
     }
 }
 
-export {updateMemes, GetUserData};
+
+async function LoadGlobalChat(token, previousETAG) {
+    const url = "https://api.github.com/repos/VincentD007/Joke-Reviews-DB/contents/GlobalChat/history.json";
+    let headers = {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github+json',
+    }
+
+    if (previousETAG) {
+        headers['If-None-Match'] = previousETAG;
+    }
+
+    let response = await fetch(url, {
+        headers: headers
+    })
+
+    if (response.status == 304) {
+        return {
+            json: null, 
+            etag: previousETAG
+        };
+    }
+    else if (!response.ok) {
+        throw new Error("Something Went Wrong")
+    }
+    
+    let data = await response.json()
+    let etag = response.headers.get('etag')
+    let content = {
+        json: JSON.parse(atob(data.content)), 
+        etag: etag,
+        sha: data.sha
+    }
+    return content;
+}
+
+
+async function SendGlobalMsg( username, message, token ) {
+    let url = "http://localhost:3001/GlobalChatHistory";
+    let data = await LoadGlobalChat(token, null);
+
+    let chatHistory = data.json;
+    chatHistory.push({username: username, comment: message});
+
+    let body = {
+        updatedHistory: chatHistory,
+        sha: data.sha,
+        token: token
+    }
+
+    fetch(url, {
+        "method": "PUT",
+        "body": body,
+        "headers": {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+
+}
+
+
+export {updateMemes, GetUserData, LoadGlobalChat};

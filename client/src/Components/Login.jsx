@@ -2,6 +2,7 @@ import { useRef, useContext } from 'react';
 import {useNavigate} from 'react-router-dom'
 import "../Styles/Login.css"
 import LoggedInContext from '../Context/LoggedInContext.jsx'
+import { LoadGlobalChat } from './DBinterface.js'
 
 export default function Login() {
     const navigate = useNavigate()
@@ -39,6 +40,8 @@ export default function Login() {
                             };
                         })
                     })
+                    // LoadGlobalChat(PAT.current, null)
+                    // .then(response => {console.log(response)})
                 }}/>
 
                 <input type='submit' id='CreateButton' value="Create Account" onClick={() => {
