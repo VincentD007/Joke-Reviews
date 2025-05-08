@@ -71,10 +71,6 @@ export default function ChatWindow() {
         if (!(data.etag == etag.current)) {
             messageSetter(data.json);
             etag.current = data.etag;
-            console.log("Tripped")
-        }
-        else {
-            console.log(data.json)
         }
     }
     catch(Error) {
