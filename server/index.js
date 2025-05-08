@@ -74,7 +74,6 @@ app.put('/GlobalChatHistory', (req, res) => {
       res.status(response.status).send();
       return(response.json())
     })
-    .then(json => {console.log(json)})
   }
   catch(Error) {
     console.log(`Server Error: ${Error}`)
