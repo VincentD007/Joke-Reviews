@@ -63,7 +63,7 @@ export default function ChatWindow() {
                         setmsgPaused(true);
                         setTimeout(() => {
                             setmsgPaused(false);
-                        }, 2000)
+                        }, 3000)
                     }
                 }}>{!msgPaused ? "Send": "Wait..."}
                 </button>}
