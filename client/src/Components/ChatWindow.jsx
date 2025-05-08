@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { LoadGlobalChat } from './DBinterface.js'
+import { LoadGlobalChat, SendGlobalMsg } from './DBinterface.js'
 import LoggedInContext from '../Context/LoggedInContext.jsx'
 import NavBar from './Navbar.jsx'
 import '../Styles/ChatWindow.css'
@@ -11,6 +11,8 @@ export default function ChatWindow() {
     const navigate = useNavigate()
     const intervalID = useRef()
     const prevETAG = useRef(null)
+    const userMsg = useRef("")
+    const [msgPaused, setmsgPaused] = useState(false)
 
     useEffect(() => {
         if (Object.keys(userLogin.user).length == 0){
@@ -31,13 +33,32 @@ export default function ChatWindow() {
                     <div id='MessageArea'>
                         {LoadedMessages.map((elem, i) => {
                             return(
-                                <Message key={i} username={elem.username} message={elem.comment}/>
+                                <Message 
+                                key={i} 
+                                yourmessage={elem.username == userLogin.user.username} 
+                                username={elem.username} 
+                                message={elem.comment}/>
                             )
                         })}
                     </div>
                 }
-                <textarea placeholder='Type your message...'></textarea>
-                {!LoadedMessages ? null : <button>Send</button>}
+                <textarea 
+                placeholder='Type your message...' 
+                onChange={(eventObj) => {
+                    userMsg.current = eventObj.target.value;
+                }}>
+                </textarea>
+                {!LoadedMessages ? null : <button 
+                onClick={() => {
+                    if (!msgPaused) {
+                        SendGlobalMsg(userLogin.user.username, userMsg.current, userLogin.user.token);
+                        setmsgPaused(true);
+                        setTimeout(() => {
+                            setmsgPaused(false);
+                        }, 2000)
+                    }
+                }}>{!msgPaused ? "Send": "Wait..."}
+                </button>}
             </div>
         </div>
     )
@@ -63,8 +84,9 @@ export default function ChatWindow() {
 
 
 function Message(props) {
+
     return (
-        <div className='Message ChatMessage'>
+        <div className={`Message ChatMessage ${props.yourmessage ? "YourMessage": "ChatMessage"}`}>
             <div id='MessageSender'>
                 {props.username}:
             </div>

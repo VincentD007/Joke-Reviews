@@ -2,17 +2,19 @@ import { useRef, useContext } from 'react';
 import {useNavigate} from 'react-router-dom'
 import "../Styles/Login.css"
 import LoggedInContext from '../Context/LoggedInContext.jsx'
-import { LoadGlobalChat } from './DBinterface.js'
+import { LoadGlobalChat, SendGlobalMsg } from './DBinterface.js'
 
 export default function Login() {
     const navigate = useNavigate()
     let userName = useRef("");
     let PAT = useRef("");
     let setUser = useContext(LoggedInContext).setUser;
+
     
     return (
         <div id="LoginPageContainer">
-            <h1 style={{margin: "0px", marginBottom: "30px"}}>Jokes Login</h1>
+            <h1 style={{margin: "0px", marginBottom: "30px"}}>The Meme Machine</h1>
+            <img src='https://i.postimg.cc/nCt88PBs/Chat-GPT-Image-May-8-2025-08-08-02-AM.png' alt='This is Matt Laughing'/>
             <form id='LoginForm' onSubmit={(event) => {event.preventDefault()}}>
                 <input 
                 className='LoginField' 
@@ -40,8 +42,6 @@ export default function Login() {
                             };
                         })
                     })
-                    // LoadGlobalChat(PAT.current, null)
-                    // .then(response => {console.log(response)})
                 }}/>
 
                 <input type='submit' id='CreateButton' value="Create Account" onClick={() => {

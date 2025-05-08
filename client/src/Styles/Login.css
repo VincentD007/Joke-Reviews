@@ -1,7 +1,7 @@
 #LoginPageContainer {
     width: 100vw;
     height: 100vh;
-    background-color: grey;
+    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,15 +24,45 @@
 }
 
 #LoginButton, #CreateButton {
-    width: 120px;
-    height: 30px;
-    border: 2px solid white;
-    border-radius: 5px;
+    background: linear-gradient(135deg, #4a90e2, #007aff);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    font-weight: 800;
-    background-color: grey;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
 }
 
 #LoginButton:hover, #CreateButton:hover {
-    background-color: darkgrey;
+    background: linear-gradient(135deg, #007aff, #005bb5);
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+#LoginPageContainer img {
+    width: 150px;
+    height: auto; 
+    border-radius: 50%; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    margin-bottom: 20px; 
+    transition: transform 0.3s ease; 
+}
+
+#LoginPageContainer img:hover {
+    transform: scale(1.1); 
+}
+
+
+#LoginPageContainer h1 {
+    text-align: center;
+    margin: 0 auto; 
+    font-size: 3rem; 
+    color: #333;
 }

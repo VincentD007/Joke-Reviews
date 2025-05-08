@@ -106,17 +106,20 @@ async function SendGlobalMsg( username, message, token ) {
         sha: data.sha,
         token: token
     }
-
-    fetch(url, {
-        "method": "PUT",
-        "body": body,
-        "headers": {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-
+    try {
+        fetch(url, {
+            method: "PUT",
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    }
+    catch(Error) {
+        console.log(`Client Error: ${Error}`)
+    }
 }
 
 
-export {updateMemes, GetUserData, LoadGlobalChat};
+export {updateMemes, GetUserData, LoadGlobalChat, SendGlobalMsg};

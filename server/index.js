@@ -44,9 +44,37 @@ app.put('/JokeAccounts', (req, res) => {
 
 
 app.put('/GlobalChatHistory', (req, res) => {
-  let url = "https://api.github.com/repos/VincentD007/Joke-Reviews-DB/contents/GlobalChat"
+  let url = "https://api.github.com/repos/VincentD007/Joke-Reviews-DB/contents/GlobalChat/history.json"
 
-  let 
+
+  try {
+    let data = {
+      'message': 'New Global Message',
+      'content': Buffer.from(JSON.stringify(req.body.updatedHistory)).toString('base64'),
+      'sha': req.body.sha
+    }
+
+
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${req.body.token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      
+      res.status(response.status).send();
+      return(response.json())
+    })
+    .then(json => {console.log(json)})
+  }
+  catch(Error) {
+    console.log(`Server Error: ${Error}`)
+  }
+
 })
 
 

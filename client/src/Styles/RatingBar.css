@@ -19,7 +19,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* Space between text and emoji/icon */
+  gap: 8px; 
 }
 
 .rating-bar button:hover {
