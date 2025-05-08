@@ -13,6 +13,7 @@ export default function ChatWindow() {
     const prevETAG = useRef(null)
     const userMsg = useRef("")
     const [msgPaused, setmsgPaused] = useState(false)
+    const messageEndRef = useRef(null);
 
     useEffect(() => {
         if (Object.keys(userLogin.user).length == 0){
@@ -23,7 +24,13 @@ export default function ChatWindow() {
                 setGlobalChat(setMessages, prevETAG, userLogin.user.token)
             }, 2000)
         return(() => {clearInterval(intervalID.current)})
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (messageEndRef.current) {
+            messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [LoadedMessages]);
 
     return (
         <div id="GlobalChatPageContainer">
@@ -40,6 +47,7 @@ export default function ChatWindow() {
                                 message={elem.comment}/>
                             )
                         })}
+                         <div ref={messageEndRef} />
                     </div>
                 }
                 <textarea 
