@@ -1,4 +1,4 @@
-export default async function updateMemes(username, memes, token) {
+async function updateMemes(username, memes, token) {
     try {
         let sha = await GetUserData(username, 'sha');
         let url = "http://localhost:3001/JokeAccounts";
@@ -57,3 +57,4 @@ async function GetUserData(username, type='memes') {
     }
 }
 
+export {updateMemes, GetUserData};

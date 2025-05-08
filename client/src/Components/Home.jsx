@@ -100,7 +100,6 @@ export default function Home() {
 
   useEffect(() => {
     fetchNewMeme();
-    return (() => {navigate("/")});
   }, []);
 
   const handleSaveMeme = () => {
