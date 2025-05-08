@@ -19,6 +19,22 @@
     padding: 10px;
     overflow-y: scroll;
 }
+#MessageArea::-webkit-scrollbar {
+    width: 6px;
+}
+
+#MessageArea::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+#MessageArea::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+}
+
+#MessageArea::-webkit-scrollbar-button {
+    display: none;
+}
 
 .Message {
 display: flex;
