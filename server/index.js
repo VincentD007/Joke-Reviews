@@ -24,20 +24,25 @@ app.put('/JokeAccounts', (req, res) => {
   };
   console.log(bodyToEncode)
   let encodedBody = JSON.stringify(bodyToEncode)
-    
-  fetch(`${url}/${body.username}.json`, {
-    method: 'PUT',
-    headers: {
-        'Authorization': `Bearer ${req.body.token}`,
-        'Content-Type': 'application/json',
-        'Accept': "application/vnd.github+json"
-    },
-    body: encodedBody
-  })
-  .then(githubResponse => githubResponse.json())
-  .then(formatted => {
-    res.status(200).json(formatted)
-  })
+  
+  try {
+    fetch(`${url}/${body.username}.json`, {
+      method: 'PUT',
+      headers: {
+          'Authorization': `Bearer ${req.body.token}`,
+          'Content-Type': 'application/json',
+          'Accept': "application/vnd.github+json"
+      },
+      body: encodedBody
+    })
+    .then(githubResponse => githubResponse.json())
+    .then(formatted => {
+      res.status(200).json(formatted)
+    })
+  }
+  catch(Error) {
+    console.log("Server PUT error", Error)
+  }
   
  
 })
