@@ -92,7 +92,7 @@ function Message(props) {
     return (
         <div className={`Message ChatMessage ${props.yourmessage ? "YourMessage": "ChatMessage"}`}>
             <div id='MessageSender'>
-                {props.username}:
+                {props.username}
             </div>
 
             <div id='MessageContent'>

@@ -47,6 +47,7 @@ max-width: 100%;
 
 #MessageSender {
     font-weight: 800;
+    padding-right: 4px;
 }
 
 #MessageContent {
